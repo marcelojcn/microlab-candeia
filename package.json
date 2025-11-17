@@ -1,0 +1,27 @@
+{
+  "name": "microlab-candeia",
+  "version": "1.0.0",
+  "description": "A small debouncer strategy library",
+  "keywords": [
+    "debouncer"
+  ],
+  "homepage": "https://github.com/marcelojcn/microlab-candeia#readme",
+  "bugs": {
+    "url": "https://github.com/marcelojcn/microlab-candeia/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/marcelojcn/microlab-candeia.git"
+  },
+  "license": "Apache-2.0",
+  "author": "Marcelo Nunes",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "test": "npm run test",
+    "build": "npx tsc"
+  },
+  "devDependencies": {
+    "typescript": "^5.9.3"
+  }
+}
