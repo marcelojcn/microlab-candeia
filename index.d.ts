@@ -1,7 +1,7 @@
 export interface DebounceOptions {
     leading?: boolean;
     trailing?: boolean;
-    delay?: number;
+    wait?: number;
     maxWait?: number;
 }
 export declare function debounce(key: string, callback: (...args: any[]) => any, options?: DebounceOptions): void;
