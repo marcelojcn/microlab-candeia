@@ -34,6 +34,7 @@ class TimeoutManager {
     
             timeout?.timeout.refresh();
 
+            // If we check the remaining time like this, there's a chance the execution maybe be delayed until there's an actual debounce call
             const remaining = this.remainingTime(key);
             if (remaining !== null && remaining <= 0) {
                 this.execute(key);
@@ -69,10 +70,9 @@ class TimeoutManager {
     }
 
     public clear(key: string): void {
-        if (this.timeoutsMap.has(key)) {
-            const timeout = this.timeoutsMap.get(key);
-
-            clearTimeout(timeout?.timeout);
+        const timeout = this.timeoutsMap.get(key);
+        if (!!timeout) {
+            clearTimeout(timeout.timeout);
 
             this.timeoutsMap.delete(key);
         }

@@ -22,6 +22,7 @@ class TimeoutManager {
         try {
             const timeout = this.timeoutsMap.get(key);
             timeout?.timeout.refresh();
+            // If we check the remaining time like this, there's a chance the execution maybe be delayed until there's an actual debounce call
             const remaining = this.remainingTime(key);
             if (remaining !== null && remaining <= 0) {
                 this.execute(key);
@@ -54,9 +55,9 @@ class TimeoutManager {
         this.timeoutsMap.set(key, new Timeout(timeout, callback, options));
     }
     clear(key) {
-        if (this.timeoutsMap.has(key)) {
-            const timeout = this.timeoutsMap.get(key);
-            clearTimeout(timeout?.timeout);
+        const timeout = this.timeoutsMap.get(key);
+        if (!!timeout) {
+            clearTimeout(timeout.timeout);
             this.timeoutsMap.delete(key);
         }
     }
@@ -76,6 +77,15 @@ class TimeoutManager {
     }
 }
 const manager = new TimeoutManager();
+/*
+ * Debounces a function identified by a unique key.
+ * If the function is called again before the wait time elapses,
+ * the timer is reset.
+ *
+ * @param key Unique identifier for the debounced function
+ * @param callback The function to debounce
+ * @param options Configuration options for debouncing
+*/
 export function debounce(key, callback, options) {
     if (options?.leading && !manager.has(key)) {
         (async () => {
@@ -108,6 +118,9 @@ export function debounce(key, callback, options) {
         manager.save(key, timeout, callback, { ...options, wait });
     }
 }
+/*
+ * Clears all debounced functions and their timers.
+*/
 export function clearDebouncers() {
     manager.clearAll();
 }
